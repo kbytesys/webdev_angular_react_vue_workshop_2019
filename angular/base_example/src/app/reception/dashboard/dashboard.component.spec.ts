@@ -6,6 +6,7 @@ import {CheckinFormComponent} from '../checkin-form/checkin-form.component';
 import {CheckinLogComponent} from '../checkin-log/checkin-log.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -15,7 +16,9 @@ describe('DashboardComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       declarations: [ DashboardComponent, GuestListComponent, CheckinFormComponent, CheckinLogComponent ]
     })

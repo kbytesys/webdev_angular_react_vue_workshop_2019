@@ -4,7 +4,7 @@
 
 <h2>Reception dashboard</h2>
 <div class="reception-dashboard">
-  <app-checkin-form></app-checkin-form>
-  <app-guest-list [checksin]="checksin" (checkout)="onCheckout()"></app-guest-list>
+  <app-checkin-form [rooms]="rooms" (checkin)="onCheckoutOrCheckin()"></app-checkin-form>
+  <app-guest-list [checksin]="checksin" (checkout)="onCheckoutOrCheckin()"></app-guest-list>
   <app-checkin-log [checksinLog]="checksinLog"></app-checkin-log>
 </div>

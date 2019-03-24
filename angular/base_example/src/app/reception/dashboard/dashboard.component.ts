@@ -22,7 +22,7 @@ export class DashboardComponent implements OnInit {
     this.receptionService.getRooms().subscribe(items => this.rooms = items);
   }
 
-  public onCheckout(): void {
+  public onCheckoutOrCheckin(): void {
     this.refreshData();
   }
 

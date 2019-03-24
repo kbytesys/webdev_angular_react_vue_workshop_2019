@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckinFormComponent } from './checkin-form.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
 
 describe('CheckinFormComponent', () => {
   let component: CheckinFormComponent;
@@ -8,6 +10,10 @@ describe('CheckinFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        HttpClientTestingModule,
+        ReactiveFormsModule
+      ],
       declarations: [ CheckinFormComponent ]
     })
     .compileComponents();

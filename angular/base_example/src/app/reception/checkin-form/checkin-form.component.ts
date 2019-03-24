@@ -1,4 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {FormBuilder, Validators} from '@angular/forms';
+import {Room} from '../shared/room.model';
+import {ReceptionService} from '../shared/reception.service';
 
 @Component({
   selector: 'app-checkin-form',
@@ -7,9 +10,33 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CheckinFormComponent implements OnInit {
 
-  constructor() { }
+  @Input()
+  public rooms: Array<Room>;
+
+  @Output()
+  public checkin: EventEmitter<void> = new EventEmitter();
+
+  public lastCheckinError: string;
+
+  constructor(private formBuilder: FormBuilder, private receptionService: ReceptionService) { }
+
+  checkinForm = this.formBuilder.group({
+    room: ['', Validators.required],
+    personName: ['', Validators.required]
+  });
 
   ngOnInit() {
   }
 
+  onSubmit() {
+    this.receptionService.checkin(this.checkinForm.value.room, {name: this.checkinForm.value.personName})
+      .subscribe(
+        () => {
+          this.lastCheckinError = null;
+          this.checkin.emit();
+        },
+        (response) => {
+          this.lastCheckinError = response.error && response.error.message ? response.error.message : response
+        })
+  }
 }

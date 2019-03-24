@@ -1,3 +1,20 @@
-<p>
-  checkin-form works!
-</p>
+<div class="reception-checkin-form">
+  <h3>Checkin</h3>
+  <form [formGroup]="checkinForm" (ngSubmit)="onSubmit()">
+
+    <label>
+      Room:
+      <select class="form-control" formControlName="room" >
+        <option [value]="null">---</option>
+        <option *ngFor="let room of rooms" [ngValue]="room">{{room.name}}</option>
+      </select>
+    </label>
+
+    <label>
+      Person Name:
+      <input type="text" formControlName="personName">
+    </label>
+    <button type="submit" [disabled]="!checkinForm.valid">Checkin</button>
+  </form>
+  <p *ngIf="lastCheckinError">{{lastCheckinError}}</p>
+</div>
