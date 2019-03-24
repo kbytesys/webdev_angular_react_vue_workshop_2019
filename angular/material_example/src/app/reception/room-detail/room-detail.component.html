@@ -1,10 +1,17 @@
-<div class="reception-dashboard-roomlist">
-  <a [routerLink]="['/reception/dashboard']">Dashboard</a>
-</div>
+<mat-card>
+  <div class="reception-dashboard-roomlist">
+    <a [routerLink]="['/reception/dashboard']">Dashboard</a>
+  </div>
 
-<h2>{{room.name}} detail</h2>
+  <mat-card-header>
+    <mat-card-title>
+      <h2>{{room.name}} detail</h2>
+    </mat-card-title>
+  </mat-card-header>
 
-<div class="reception-room-detail">
-  <app-guest-list [checksin]="checksin" (checkout)="onCheckout()"></app-guest-list>
-  <app-checkin-log [checksinLog]="checksinLog"></app-checkin-log>
-</div>
+
+  <mat-card-content>
+    <app-guest-list [checksin]="checksin" (checkout)="onCheckout()"></app-guest-list>
+    <app-checkin-log [checksinLog]="checksinLog"></app-checkin-log>
+  </mat-card-content>
+</mat-card>

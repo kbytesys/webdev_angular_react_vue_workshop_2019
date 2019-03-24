@@ -8,13 +8,16 @@ import { CheckinFormComponent } from './checkin-form/checkin-form.component';
 import { GuestListComponent } from './guest-list/guest-list.component';
 import { CheckinLogComponent } from './checkin-log/checkin-log.component';
 import {ReactiveFormsModule} from '@angular/forms';
+import {MatCardModule, MatTableModule} from '@angular/material';
 
 @NgModule({
   declarations: [DashboardComponent, RoomDetailComponent, CheckinFormComponent, GuestListComponent, CheckinLogComponent],
   imports: [
     CommonModule,
     ReceptionRoutingModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatCardModule,
+    MatTableModule
   ]
 })
 export class ReceptionModule { }

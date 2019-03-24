@@ -1,19 +1,22 @@
-<div class="reception-checkin-log">
-  <h3>Log</h3>
-  <div class="reception-checkin-log-container">
-    <table>
-      <thead class="reception-checkin-log-header">
-      <tr>
-        <th>Date</th>
-        <th>Event</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let checkinLog of checksinLog">
-        <td>{{checkinLog.date | date: 'short'}}</td>
-        <td>{{checkinLog.message}}</td>
-      </tr>
-      </tbody>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h3>Log</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <table mat-table [dataSource]="checksinLog">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element"> {{element.date | date: 'short'}} </td>
+      </ng-container>
+      <ng-container matColumnDef="message">
+        <th mat-header-cell *matHeaderCellDef>Event</th>
+        <td mat-cell *matCellDef="let element"> {{element.message}} </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="['date', 'message']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['date', 'message'];"></tr>
     </table>
-  </div>
-</div>
+  </mat-card-content>
+</mat-card>
