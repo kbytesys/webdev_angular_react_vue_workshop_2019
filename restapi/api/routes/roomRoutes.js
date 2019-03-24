@@ -1,8 +1,11 @@
 'use strict';
 module.exports = function(app) {
-    var routeController = require('../controllers/roomController');
+    var roomController = require('../controllers/roomController');
 
     // todoList Routes
     app.route('/room')
-        .get(routeController.list_all_rooms);
+        .get(roomController.list_all_rooms);
+
+    app.route('/room/:roomId')
+        .get(roomController.get_a_room);
 };

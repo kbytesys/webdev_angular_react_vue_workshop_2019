@@ -89,32 +89,32 @@ describe('ReceptionService', () => {
     });
   });
 
-  describe('#getCheckins', () => {
-    let expectedCheckins;
+  describe('#getChecksin', () => {
+    let expectedChecksin;
 
     beforeEach(() => {
       receptionService = TestBed.get(ReceptionService);
-      expectedCheckins = [
+      expectedChecksin = [
         {id: 1, person: {name: "name1"}, room: {id: 1, name: "room1"}},
         {id: 2, person: {name: "name2"}, room: {id: 1, name: "room1"}}] as Array<Checkin>;
     });
 
     it('should get the checkin list', () => {
       // when
-      receptionService.getCheckins().subscribe(
-        checkinlogs => expect(checkinlogs).toEqual(expectedCheckins, 'should return expected checkins')
+      receptionService.getChecksin().subscribe(
+        checkinlogs => expect(checkinlogs).toEqual(expectedChecksin, 'should return expected checksin')
       );
 
       // then
       const req = httpTestingController.expectOne(`${environment.apiUrl}/checkin/`);
       expect(req.request.method).toEqual('GET');
-      req.flush(expectedCheckins);
+      req.flush(expectedChecksin);
     });
 
     it('should get the checkin list with room parameter', () => {
       // when
-      receptionService.getCheckins(1).subscribe(
-        checkinlogs => expect(checkinlogs).toEqual(expectedCheckins, 'should return expected checkins')
+      receptionService.getChecksin(1).subscribe(
+        checkinlogs => expect(checkinlogs).toEqual(expectedChecksin, 'should return expected checksin')
       );
 
       // then
@@ -122,7 +122,7 @@ describe('ReceptionService', () => {
       const req = httpTestingController.expectOne(req => req.method === 'GET' && req.url === `${environment.apiUrl}/checkin/`);
       expect(req.request.method).toEqual('GET');
       expect(req.request.params.get('room').toString()).toEqual('1');
-      req.flush(expectedCheckins);
+      req.flush(expectedChecksin);
     });
   });
 });

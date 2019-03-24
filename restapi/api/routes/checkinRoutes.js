@@ -4,7 +4,7 @@ module.exports = function(app) {
 
     // todoList Routes
     app.route('/checkin')
-        .get(checkinController.list_all_checkins)
+        .get(checkinController.list_all_checksin)
         .post(checkinController.create_a_checkin);
 
 

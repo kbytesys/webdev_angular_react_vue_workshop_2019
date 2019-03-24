@@ -1,0 +1,19 @@
+<div class="reception-checkin-log">
+  <h3>Log</h3>
+  <div class="reception-checkin-log-container">
+    <table>
+      <thead class="reception-checkin-log-header">
+      <tr>
+        <th>Date</th>
+        <th>Event</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let checkinLog of checksinLog">
+        <td>{{checkinLog.date | date: 'short'}}</td>
+        <td>{{checkinLog.message}}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

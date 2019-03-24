@@ -36,7 +36,7 @@ export class ReceptionService {
     );
   }
 
-  public getCheckins(roomid?: number): Observable<Array<Checkin>> {
+  public getChecksin(roomid?: number): Observable<Array<Checkin>> {
 
     let requestOptions = {};
 
@@ -45,7 +45,7 @@ export class ReceptionService {
     }
 
     return this.http.get<Array<Checkin>>(`${environment.apiUrl}/checkin/`, requestOptions).pipe(
-      map((responseData) => convertApiCheckins(responseData))
+      map((responseData) => convertApiChecksin(responseData))
     );
   }
 
@@ -93,6 +93,6 @@ function convertApiCheckin(data: any): Checkin {
   }
 }
 
-function convertApiCheckins(data: any): Array<Checkin> {
+function convertApiChecksin(data: any): Array<Checkin> {
   return data.map((item) => convertApiCheckin(item));
 }

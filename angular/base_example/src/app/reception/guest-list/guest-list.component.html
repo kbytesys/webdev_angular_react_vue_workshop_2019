@@ -1,0 +1,21 @@
+<div class="reception-guest-list">
+  <h3>Guest list</h3>
+  <div class="reception-guest-list-container">
+    <table>
+      <thead class="reception-guest-list-header">
+        <tr>
+          <th>Room</th>
+          <th>Person</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let checkin of checksin">
+          <td>{{checkin.room.name}}</td>
+          <td>{{checkin.person.name}}</td>
+          <td><a href="javascript:void(0)" (click)="checkoutPerson(checkin.id)">checkout</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
