@@ -60,7 +60,7 @@ export class ReceptionService {
   }
 
   public checkin(room: Room, person: Person): Observable<any> {
-    return this.http.put(`${environment.apiUrl}/checkin/`, {person: person, room: room});
+    return this.http.put(`${environment.apiUrl}/checkin/`, {person, room});
   }
 }
 
@@ -96,7 +96,7 @@ function convertApiCheckin(data: any): Checkin {
       id: data.room.id,
       name: data.room.name
     }
-  }
+  };
 }
 
 function convertApiChecksin(data: any): Array<Checkin> {

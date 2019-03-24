@@ -1,6 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RoomDetailComponent } from './room-detail.component';
+import {HttpClientTestingModule} from '@angular/common/http/testing';
+import {RouterTestingModule} from '@angular/router/testing';
+import {GuestListComponent} from '../guest-list/guest-list.component';
+import {CheckinLogComponent} from '../checkin-log/checkin-log.component';
+import {ActivatedRoute} from '@angular/router';
+import {of} from 'rxjs';
 
 describe('RoomDetailComponent', () => {
   let component: RoomDetailComponent;
@@ -8,7 +14,14 @@ describe('RoomDetailComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoomDetailComponent ]
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
+      declarations: [ RoomDetailComponent, GuestListComponent, CheckinLogComponent ],
+      providers: [
+        { provide: ActivatedRoute, useClass: class { data = of({room: {id: 1, name: 'Test room'}}); }}
+      ]
     })
     .compileComponents();
   }));

@@ -32,7 +32,7 @@ describe('ReceptionService', () => {
   it('should get the room list', () => {
     // given
     receptionService = TestBed.get(ReceptionService);
-    let expectedRooms = [{id: 1, name: "Room 1"}, {id: 2, name: "Room 2"}] as Array<Room>;
+    const expectedRooms = [{id: 1, name: 'Room 1'}, {id: 2, name: 'Room 2'}] as Array<Room>;
 
     // when
     receptionService.getRooms().subscribe(
@@ -56,10 +56,11 @@ describe('ReceptionService', () => {
 
     beforeEach(() => {
       receptionService = TestBed.get(ReceptionService);
-      var testDateString = '2019-03-24T10:00:00.000Z';
-      var refDate = new Date(Date.parse(testDateString));
-      expectedCheckinLogs = [{date: refDate, message: "message 1"}, {date: refDate, message: "message 2"}] as Array<CheckinLog>;
-      expectedApiResponse = [{roomid: 1, date: testDateString, message: "message 1"}, {roomid: 2, date: testDateString, message: "message 2"}];
+      const testDateString = '2019-03-24T10:00:00.000Z';
+      const refDate = new Date(Date.parse(testDateString));
+      expectedCheckinLogs = [{date: refDate, message: 'message 1'}, {date: refDate, message: 'message 2'}] as Array<CheckinLog>;
+      expectedApiResponse = [{roomid: 1, date: testDateString, message: 'message 1'},
+                             {roomid: 2, date: testDateString, message: 'message 2'}];
     });
 
     it('should get the checkinlog list', () => {
@@ -82,7 +83,8 @@ describe('ReceptionService', () => {
 
       // then
       // TODO workaround for https://github.com/angular/angular/issues/19974
-      const req = httpTestingController.expectOne(req => req.method === 'GET' && req.url === `${environment.apiUrl}/checkinlog/`);
+      const req = httpTestingController.expectOne(
+        request => request.method === 'GET' && request.url === `${environment.apiUrl}/checkinlog/`);
       expect(req.request.method).toEqual('GET');
       expect(req.request.params.get('room').toString()).toEqual('1');
       req.flush(expectedApiResponse);
@@ -95,8 +97,8 @@ describe('ReceptionService', () => {
     beforeEach(() => {
       receptionService = TestBed.get(ReceptionService);
       expectedChecksin = [
-        {id: 1, person: {name: "name1"}, room: {id: 1, name: "room1"}},
-        {id: 2, person: {name: "name2"}, room: {id: 1, name: "room1"}}] as Array<Checkin>;
+        {id: 1, person: {name: 'name1'}, room: {id: 1, name: 'room1'}},
+        {id: 2, person: {name: 'name2'}, room: {id: 1, name: 'room1'}}] as Array<Checkin>;
     });
 
     it('should get the checkin list', () => {
@@ -119,7 +121,7 @@ describe('ReceptionService', () => {
 
       // then
       // TODO workaround for https://github.com/angular/angular/issues/19974
-      const req = httpTestingController.expectOne(req => req.method === 'GET' && req.url === `${environment.apiUrl}/checkin/`);
+      const req = httpTestingController.expectOne(request => request.method === 'GET' && request.url === `${environment.apiUrl}/checkin/`);
       expect(req.request.method).toEqual('GET');
       expect(req.request.params.get('room').toString()).toEqual('1');
       req.flush(expectedChecksin);
