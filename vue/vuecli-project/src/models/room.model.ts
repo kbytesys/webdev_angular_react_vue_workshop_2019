@@ -1,4 +1,4 @@
-export interface Room {
+export interface RoomModel {
   id: number;
   name: string;
 }

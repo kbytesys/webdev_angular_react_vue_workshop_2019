@@ -3,7 +3,7 @@
         <h1>Creepy Artist Theater Congress Center</h1>
         <div id="nav">
             <router-link class="navbar-link" to="/">Dashboard</router-link>
-            <router-link class="navbar-link" v-for="(val) in rooms" :to="{name: 'room', params: {roomId: val.id}}">{{val.name}}</router-link>
+            <router-link class="navbar-link" v-for="(val) in rooms" :key="val.id" :to="{name: 'room', params: {roomId: val.id}}">{{val.name}}</router-link>
         </div>
     </header>
 </template>
@@ -11,21 +11,21 @@
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
     import Axios from 'axios';
-    import {Room} from '@/models/room.model';
+    import {RoomModel} from '@/models/room.model';
 
     @Component
     export default class Navbar extends Vue {
 
-        public rooms: Array<Room>;
+        public rooms: RoomModel[];
 
-        constructor(props) {
-            super(props);
+        constructor() {
+            super();
             this.rooms = [];
         }
 
-        mounted() {
+        public mounted() {
             Axios.get('http://localhost:3000/room')
-                .then(response => (this.rooms = response.data as Array<Room>))
+                .then((response) => (this.rooms = response.data as RoomModel[]));
         }
     }
 </script>

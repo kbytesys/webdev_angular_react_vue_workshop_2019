@@ -1,8 +1,8 @@
-import {Person} from './person.model';
-import {Room} from './room.model';
+import {PersonModel} from './person.model';
+import {RoomModel} from './room.model';
 
-export interface Checkin {
+export interface CheckinModel {
     id: number;
-    person: Person;
-    room: Room;
+    person: PersonModel;
+    room: RoomModel;
 }

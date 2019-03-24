@@ -1,3 +1,3 @@
-export interface Person {
+export interface PersonModel {
   name: string;
 }
