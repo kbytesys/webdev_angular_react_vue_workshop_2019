@@ -3,10 +3,10 @@ import { TestBed } from '@angular/core/testing';
 import { ReceptionService } from './reception.service';
 import {HttpClientTestingModule, HttpTestingController} from '@angular/common/http/testing';
 import {HttpClient} from '@angular/common/http';
-import {Room} from '../models/room.model';
+import {Room} from '../shared/room.model';
 import {environment} from '../../../environments/environment';
-import {CheckinLog} from '../models/checkinlog.model';
-import {Checkin} from '../models/checkin.model';
+import {CheckinLog} from '../shared/checkinlog.model';
+import {Checkin} from '../shared/checkin.model';
 
 describe('ReceptionService', () => {
   let httpClient: HttpClient;
