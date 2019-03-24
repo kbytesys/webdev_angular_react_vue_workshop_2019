@@ -1,0 +1,9 @@
+.reception-guest-list {
+    text-align: center;
+    width: 100%;
+}
+
+.reception-guest-list table {
+    min-width: 400px;
+    margin: auto;
+}

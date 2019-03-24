@@ -1,0 +1,9 @@
+.reception-log {
+    text-align: center;
+    width: 100%;
+}
+
+.reception-log table {
+    min-width: 600px;
+    margin: auto;
+}
