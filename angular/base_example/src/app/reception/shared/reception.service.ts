@@ -23,6 +23,12 @@ export class ReceptionService {
     );
   }
 
+  public getRoom(roomId: number): Observable<Room> {
+    return this.http.get<Room>(`${environment.apiUrl}/room/${roomId}`).pipe(
+      map((responseData) => convertApiRoom(responseData))
+    );
+  }
+
   public getCheckinlogs(roomid?: number): Observable<Array<CheckinLog>> {
 
     let requestOptions = {};

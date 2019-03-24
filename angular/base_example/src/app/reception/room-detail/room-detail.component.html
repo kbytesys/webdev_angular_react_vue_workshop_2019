@@ -1,6 +1,10 @@
+<div class="reception-dashboard-roomlist">
+  <a [routerLink]="['/reception/dashboard']">Dashboard</a>
+</div>
+
 <h2>{{room.name}} detail</h2>
 
 <div class="reception-room-detail">
-  <app-guest-list></app-guest-list>
-  <app-checkin-log></app-checkin-log>
+  <app-guest-list [checksin]="checksin" (checkout)="onCheckout()"></app-guest-list>
+  <app-checkin-log [checksinLog]="checksinLog"></app-checkin-log>
 </div>

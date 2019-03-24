@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {ReceptionService} from '../shared/reception.service';
 import {Checkin} from '../shared/checkin.model';
 import {CheckinLog} from '../shared/checkinlog.model';
+import {Room} from '../shared/room.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -14,9 +15,11 @@ export class DashboardComponent implements OnInit {
 
   public checksin: Array<Checkin>;
   public checksinLog: Array<CheckinLog>;
+  public rooms: Array<Room>;
 
   ngOnInit() {
     this.refreshData();
+    this.receptionService.getRooms().subscribe(items => this.rooms = items);
   }
 
   public onCheckout(): void {

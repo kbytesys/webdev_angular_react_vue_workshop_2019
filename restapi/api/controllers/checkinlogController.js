@@ -7,8 +7,8 @@ exports.list_all_checkinlogs = function(req, res) {
     if (req.query && req.query.room) {
         var result = [];
         for (var idx in fakeDatabase.checksinLog) {
-            var checkinlog = fakeDatabase.checksin[idx];
-            if (checkinlog.roomid.toString() === req.query.room) {
+            var checkinlog = fakeDatabase.checksinLog[idx];
+            if (checkinlog.roomId.toString() === req.query.room) {
                 result.push(checkinlog);
             }
         }

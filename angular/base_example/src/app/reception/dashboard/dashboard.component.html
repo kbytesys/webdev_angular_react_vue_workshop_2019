@@ -1,5 +1,8 @@
-<h2>Reception dashboard</h2>
+<div class="reception-dashboard-roomlist">
+  <a *ngFor="let room of rooms" [routerLink]="['/reception/room_detail/', room.id]" class="room-item">{{room.name}}</a>
+</div>
 
+<h2>Reception dashboard</h2>
 <div class="reception-dashboard">
   <app-checkin-form></app-checkin-form>
   <app-guest-list [checksin]="checksin" (checkout)="onCheckout()"></app-guest-list>
