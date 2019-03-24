@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
 import {CheckinLog} from '../models/checkinlog.model';
 import {Checkin} from '../models/checkin.model';
+import {Person} from '../models/person.model';
 
 @Injectable({
   providedIn: 'root'
@@ -46,6 +47,14 @@ export class ReceptionService {
     return this.http.get<Array<Checkin>>(`${environment.apiUrl}/checkin/`, requestOptions).pipe(
       map((responseData) => convertApiCheckins(responseData))
     );
+  }
+
+  public checkout(checkinId: number): Observable<any> {
+    return this.http.delete(`${environment.apiUrl}/checkin/${checkinId}`);
+  }
+
+  public checkin(room: Room, person: Person): Observable<any> {
+    return this.http.put(`${environment.apiUrl}/checkin/`, {person: person, room: room});
   }
 }
 
