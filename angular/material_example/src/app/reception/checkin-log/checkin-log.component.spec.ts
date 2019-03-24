@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CheckinLogComponent } from './checkin-log.component';
+import {MatCardModule, MatTableModule} from '@angular/material';
 
 describe('CheckinLogComponent', () => {
   let component: CheckinLogComponent;
@@ -8,6 +9,10 @@ describe('CheckinLogComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        MatCardModule,
+        MatTableModule
+      ],
       declarations: [ CheckinLogComponent ]
     })
     .compileComponents();

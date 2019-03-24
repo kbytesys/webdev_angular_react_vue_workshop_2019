@@ -7,6 +7,8 @@ import {CheckinLogComponent} from '../checkin-log/checkin-log.component';
 import {RouterTestingModule} from '@angular/router/testing';
 import {HttpClientTestingModule} from '@angular/common/http/testing';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule, MatCardModule, MatInputModule, MatSelectModule, MatTableModule} from '@angular/material';
+import {NoopAnimationsModule} from '@angular/platform-browser/animations';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;
@@ -18,7 +20,13 @@ describe('DashboardComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        MatCardModule,
+        MatTableModule,
+        MatInputModule,
+        MatSelectModule,
+        MatButtonModule,
+        NoopAnimationsModule
       ],
       declarations: [ DashboardComponent, GuestListComponent, CheckinFormComponent, CheckinLogComponent ]
     })

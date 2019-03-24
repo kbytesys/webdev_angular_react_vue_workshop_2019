@@ -7,6 +7,7 @@ import {GuestListComponent} from '../guest-list/guest-list.component';
 import {CheckinLogComponent} from '../checkin-log/checkin-log.component';
 import {ActivatedRoute} from '@angular/router';
 import {of} from 'rxjs';
+import {MatCardModule, MatTableModule} from '@angular/material';
 
 describe('RoomDetailComponent', () => {
   let component: RoomDetailComponent;
@@ -16,7 +17,9 @@ describe('RoomDetailComponent', () => {
     TestBed.configureTestingModule({
       imports: [
         HttpClientTestingModule,
-        RouterTestingModule
+        RouterTestingModule,
+        MatCardModule,
+        MatTableModule
       ],
       declarations: [ RoomDetailComponent, GuestListComponent, CheckinLogComponent ],
       providers: [

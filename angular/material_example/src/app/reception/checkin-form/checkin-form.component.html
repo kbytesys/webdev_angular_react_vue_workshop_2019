@@ -1,20 +1,27 @@
-<div class="reception-checkin-form">
-  <h3>Checkin</h3>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      <h3>Checkin</h3>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+
   <form [formGroup]="checkinForm" (ngSubmit)="onSubmit()">
+    <mat-form-field floatLabel="Room">
+      <mat-label>Room</mat-label>
+      <mat-select class="form-control" formControlName="room" >
+        <mat-option *ngFor="let room of rooms" [value]="room">
+          {{room.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-    <label>
-      Room:
-      <select class="form-control" formControlName="room" >
-        <option [value]="null">---</option>
-        <option *ngFor="let room of rooms" [ngValue]="room">{{room.name}}</option>
-      </select>
-    </label>
+    <mat-form-field class="checkin-form-person" floatLabel="Person name">
+      <input matInput placeholder="Person name" formControlName="personName">
+    </mat-form-field>
 
-    <label>
-      Person Name:
-      <input type="text" formControlName="personName">
-    </label>
-    <button type="submit" [disabled]="!checkinForm.valid">Checkin</button>
+    <button mat-raised-button color="primary" type="submit" [disabled]="!checkinForm.valid">Checkin</button>
   </form>
-  <p *ngIf="lastCheckinError">{{lastCheckinError}}</p>
-</div>
+  <p class="mat-error" *ngIf="lastCheckinError">{{lastCheckinError}}</p>
+  </mat-card-content>
+</mat-card>
