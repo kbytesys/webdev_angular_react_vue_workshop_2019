@@ -26,8 +26,6 @@
     export default class ChecksinLog extends Vue {
         @Prop()
         public checksinLog!: CheckinlogModel[];
-
-
     }
 </script>
 
