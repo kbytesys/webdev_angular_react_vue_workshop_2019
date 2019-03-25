@@ -1,7 +1,8 @@
 <template>
   <div class="home">
-    <GuestList checksin="checksin"/>
-    <ChecksinLog checksinLog="checksinLog"/>
+    <h2>Dashboard</h2>
+    <GuestList :checksin="checksin" v-on:onCheckout="onCheckout()"/>
+    <ChecksinLog :checksinLog="checksinLog"/>
   </div>
 </template>
 
@@ -33,10 +34,18 @@ export default class Home extends Vue {
   }
 
   public mounted() {
+   this.refreshData();
+  }
+
+  public onCheckout() {
+    this.refreshData();
+  }
+
+  public refreshData() {
     Axios.get(`${APIURL}/checkin`)
             .then((response) => (this.checksin = response.data as CheckinModel[]));
     Axios.get(`${APIURL}/checkinlog`)
-            .then((response) => (this.checksin = response.data.map(convertCheckinLog) as CheckinModel[]));
+            .then((response) => (this.checksinLog = response.data.map(convertCheckinLog) as CheckinlogModel[]));
   }
 }
 </script>

@@ -1,7 +1,8 @@
 <template>
   <div class="room">
-    <GuestList checksin="checksin"/>
-    <ChecksinLog checksinLog="checksinLog"/>
+    <h2>Detail of the Room {{roomId}}</h2>
+    <GuestList :checksin="checksin" v-on:onCheckout="onCheckout()"/>
+    <ChecksinLog :checksinLog="checksinLog"/>
   </div>
 </template>
 
@@ -26,11 +27,13 @@
   export default class Home extends Vue {
     private checksin: CheckinModel[];
     private checksinLog: CheckinlogModel[];
+    private roomId: number;
     constructor() {
       super();
 
       this.checksin = [];
       this.checksinLog = [];
+      this.roomId = 1;
     }
 
     public mounted() {
@@ -38,17 +41,22 @@
       this.refreshData(roomId);
     }
 
+    public onCheckout() {
+      const roomId = parseInt(this.$route.params[ROOMID_PARAM], 10);
+      this.refreshData(roomId);
+    }
+
     @Watch('$route')
-    public beforeRouteUpdate(to: any, from: any, next: () => void) {
+    public beforeRouteUpdate(to: any) {
       this.refreshData(to.params.roomId);
-      next();
     }
 
     public refreshData(roomId: number) {
+      this.roomId = roomId;
       Axios.get(`${APIURL}/checkin`, {params: {room: roomId}})
               .then((response) => (this.checksin = response.data as CheckinModel[]));
       Axios.get(`${APIURL}/checkinlog`, {params: {room: roomId}})
-              .then((response) => (this.checksin = response.data.map(convertCheckinLog) as CheckinModel[]));
+              .then((response) => (this.checksinLog = response.data.map(convertCheckinLog) as CheckinlogModel[]));
     }
   }
 </script>
