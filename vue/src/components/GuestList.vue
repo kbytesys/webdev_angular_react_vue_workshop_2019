@@ -25,8 +25,7 @@
 <script lang="ts">
     import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
     import {CheckinModel} from '@/models/checkin.model';
-    import Axios from 'axios';
-    const APIURL = 'http://localhost:3000';
+    import {apiCheckout} from "@/libs/receptionApi.lib";
 
     @Component
     export default class GuestList extends Vue {
@@ -40,7 +39,7 @@
         }
 
         public checkout(id: number) {
-            Axios.delete(`${APIURL}/checkin/${id}`).then(() => this.onCheckout());
+            apiCheckout(id).then(() => this.onCheckout());
         }
     }
 </script>

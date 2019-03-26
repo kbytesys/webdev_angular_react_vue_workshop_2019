@@ -10,8 +10,8 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import Axios from 'axios';
     import {RoomModel} from '@/models/room.model';
+    import {apiGetRooms} from '@/libs/receptionApi.lib';
 
     @Component
     export default class Navbar extends Vue {
@@ -24,8 +24,7 @@
         }
 
         public mounted() {
-            Axios.get('http://localhost:3000/room')
-                .then((response) => (this.rooms = response.data as RoomModel[]));
+            apiGetRooms().then((data) => this.rooms = data);
         }
     }
 </script>

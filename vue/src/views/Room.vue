@@ -12,10 +12,8 @@
   import {CheckinModel} from '@/models/checkin.model';
   import {CheckinlogModel} from '@/models/checkinlog.model';
   import ChecksinLog from '@/components/ChecksinLog.vue';
-  import Axios from 'axios';
-  import {convertCheckinLog} from '@/utils/apiConverter';
+  import {apiGetChecksin, apiGetChecksinLog} from '@/libs/receptionApi.lib';
 
-  const APIURL = 'http://localhost:3000';
   const ROOMID_PARAM = 'roomId';
 
   @Component({
@@ -53,10 +51,10 @@
 
     public refreshData(roomId: number) {
       this.roomId = roomId;
-      Axios.get(`${APIURL}/checkin`, {params: {room: roomId}})
-              .then((response) => (this.checksin = response.data as CheckinModel[]));
-      Axios.get(`${APIURL}/checkinlog`, {params: {room: roomId}})
-              .then((response) => (this.checksinLog = response.data.map(convertCheckinLog) as CheckinlogModel[]));
+      apiGetChecksin(roomId)
+              .then((data) => this.checksin = data);
+      apiGetChecksinLog(roomId)
+              .then((data) => this.checksinLog = data);
     }
   }
 </script>
