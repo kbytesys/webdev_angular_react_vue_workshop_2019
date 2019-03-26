@@ -1,12 +1,10 @@
 import React, { Component } from 'react';
 import {ChecksinList} from './reception/checksin-list';
 import './App.css';
-import Axios from 'axios';
 import {Checkin} from './models/checkin.model';
 import {CheckinLog} from './models/checkinlog.model';
 import {ChecksinLog} from './reception/checksin-log';
-
-const APIURL = "http://localhost:3000";
+import {apiGetChecksin, apiGetChecksinLog} from './libs/receptionApi.lib';
 
 interface AppComponentState {
   checksin: Array<Checkin>;
@@ -30,12 +28,11 @@ class App extends Component<any, AppComponentState> {
   refreshData() {
     let newState = createEmptyState();
 
-    Axios.get(`${APIURL}/checkin`)
-        .then(response => { newState.checksin = response.data as Array<Checkin>; return newState; })
-        .then((newState) => Axios.get(`${APIURL}/checkinlog`)
-            .then(response => {
-              newState.checksinLog = response.data.map(
-                (item: any) => { return { date: new Date(Date.parse(item.date)), message: item.message} }) as Array<CheckinLog>;
+    apiGetChecksin()
+        .then(data => { newState.checksin = data; return newState; })
+        .then((newState) => apiGetChecksinLog()
+            .then(data => {
+              newState.checksinLog = data;
               this.setState(newState);
             }));
   }
