@@ -25,7 +25,7 @@
 <script lang="ts">
     import {Component, Emit, Prop, Vue} from 'vue-property-decorator';
     import {CheckinModel} from '@/models/checkin.model';
-    import {apiCheckout} from "@/libs/receptionApi.lib";
+    import {apiCheckout} from '@/libs/receptionApi.lib';
 
     @Component
     export default class GuestList extends Vue {
