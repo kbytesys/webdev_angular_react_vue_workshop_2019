@@ -24,10 +24,10 @@
       GuestList,
     },
   })
-  export default class Home extends Vue {
-    private checksin: CheckinModel[];
-    private checksinLog: CheckinlogModel[];
-    private roomId: number;
+  export default class Room extends Vue {
+    public checksin: CheckinModel[];
+    public checksinLog: CheckinlogModel[];
+    public roomId: number;
     constructor() {
       super();
 

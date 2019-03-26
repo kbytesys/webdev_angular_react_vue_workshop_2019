@@ -24,8 +24,8 @@ const APIURL = 'http://localhost:3000';
   },
 })
 export default class Home extends Vue {
-  private checksin: CheckinModel[];
-  private checksinLog: CheckinlogModel[];
+  public checksin: CheckinModel[];
+  public checksinLog: CheckinlogModel[];
   constructor() {
     super();
 
