@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Room} from '../shared/room.model';
+import {Room} from './room.model';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {CheckinLog} from '../shared/checkinlog.model';
-import {Checkin} from '../shared/checkin.model';
-import {Person} from '../shared/person.model';
+import {CheckinLog} from './checkinlog.model';
+import {Checkin} from './checkin.model';
+import {Person} from './person.model';
 
 @Injectable({
   providedIn: 'root'

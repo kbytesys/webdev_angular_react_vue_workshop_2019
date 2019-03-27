@@ -89,8 +89,6 @@
 						</ul>
 					</section>
 				</section>
-
-
 				<section>
 					<section>
 						<h3><img src="img/HTML5_Logo_256.png" class="title-image"> HTML5 e semantica</h3>
@@ -127,9 +125,9 @@
 					<section>
 					<h3>Cosa impareremo in questo workshop?</h3>
 					<ul>
-						<li>Creare un'applicazione in Angular, React e Vue</li>
+						<li>Le nozioni base su Angular, React e Vue</li>
 						<li>Comprendere i pattern comuni principali</li>
-						<li>Dare le basi per il testing</li>
+						<li>Essere consapevoli che si possono costruire unit test</li>
 					</ul>
 					</section>
 					<section>
@@ -201,7 +199,7 @@ $ ng new cat-congress-center-app
 						<p>SCSS è consigliato rispetto al CSS classico</p>
 					</section>
 					<section>
-						<h2>Pattern: suddividere l'applicazione in moduli</h2>
+						<h3>Pattern: suddividere l'applicazione in moduli</h3>
 						<p>Lo sviluppo dell'applicazione non deve avvenire aggiungendo componenti e files nel modulo <i>"App"</i>,
 							dobbiamo piuttosto suddividere il progetto in moduli</p>
 						<pre><code class="bash" data-trim data-noescape>
@@ -222,6 +220,129 @@ $ ng generate module Reception --routing
 						</ul>
 					</section>
 				</section>
+
+				<section>
+					<section>
+						<h3>Pattern: Creazione dei modelli</h3>
+						<p>Per il nostro modulo creiamo un file per ogni modello</p>
+
+						<pre><code class="typescript" data-trim data-noescape>
+export interface CheckinLog {
+  date: Date;
+  message: string;
+}
+
+	</code></pre>
+						<pre><code class="typescript" data-trim data-noescape>
+export interface Person {
+  name: string;
+}
+	</code></pre>
+						<pre><code class="typescript" data-trim data-noescape>
+export interface Room {
+  id: number;
+  name: string;
+}
+		</code></pre>
+					</section>
+					<section>
+						<h3>Pattern: Creazione dei modelli</h3>
+						<pre><code class="typescript" data-trim data-noescape>
+import {Person} from './person.model';
+import {Room} from './room.model';
+
+export interface Checkin {
+  id: number;
+  person: Person;
+  room: Room;
+}
+	</code></pre>
+
+						<p><b>ATTENZIONE:</b> la creazione è imprescindibile anche se i dati che maneggiamo sono identici
+						a quelli che riceviamo dalle api rest. Pena errori non facilmente rilevabili a tempo di compilazione e limitata
+						possibilità di refactoring</p>
+
+					</section>
+					<section>
+						<h3>Pattern: Utilizzare interfacce al posto di classi</h3>
+						<p>Nella definizione dei modelli abbiamo utilizzato delle interfacce al posto delle classi perché le classi in
+						Javascript hanno maggior overhead e il linguaggio permette maggiore flessibilità di creazione e utilizzo di oggetti
+							(anche on the fly).</p>
+						<pre><code class="typescript" data-trim data-noescape>
+let checkin: Checkin = {id: 1, room: {id: 1, name: 'room1'},
+			person: {name: 'person1'}};
+	</code></pre>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3>Creazione di un servizio</h3>
+						<p>Creiamo il servizio che farà da tramite tra l'applicazione e le api (o più in generale per la
+						logica dell'applicazione)</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ cd reception/shared
+$ ng generate service Reception
+	</code></pre>
+						<p>Il comando creerà un servizio vuoto e una test unit base che può essere comunque essere utile
+						per verificare la corretta attivazione del servizio.</p>
+					</section>
+					<section>
+						<h3>Dependency injection</h3>
+						<p>Osserviamo il costruttore del servizio in esempio</p>
+						<pre><code class="typescript" data-trim data-noescape>
+constructor(private http: HttpClient) {}
+	</code></pre>
+						<p>Tutto ciò che è nel costruttore (in questo caso il client per le chiamate rest)
+						verrà iniettato da Angular alla creazione della classe. Ciò vale anche per i servizi e altre entità
+						che creeremo noi nell'applicazione.</p>
+					</section>
+
+					<section>
+						<h3>Pattern: Chiamate rest e logica solo nei servizi</h3>
+						<p>Spesso la tendenza è quella di inserire troppa logica e le chiamate rest nei componenti. <br><br>Ciò è
+						fortemente sconsigliato (se non proibito).</p>
+					</section>
+
+					<section>
+						<h3>Pattern: Tipi come contratti</h3>
+						<p>Discorso applicabile universalmente è non solo ai servizi è l'importanza di definire i tipi per le variabili,
+						i parametri e i tipi di ritorno delle funzioni</p>
+						<pre><code class="typescript" data-trim data-noescape>
+public getRoom(roomId: number): Observable &lt;Room&gt; {
+	</code></pre>
+						<p>Essi definiscono dei contratti che vi tengono al sicuro da errori e rendono possibile il refactor dell'applicazione</p>
+						<p><i>"any"</i> non è un contratto accettabile e va bandito</p>
+					</section>
+					<section>
+						<h3>Observable vs Promise</h3>
+						<img src="img/observable_promise.png">
+						<p><b>Nota bene:</b> con gli observable la chiamata non parte fino a quando non si chiama <i>".subscribe()"</i></p>
+					</section>
+					<section>
+						<h3>Pattern: Adattare il dato nel servizio</h3>
+						<p>A volte i dati dalle api rest devono essere trasformati o possono cambiare nel tempo. Invece di cambiare il modello si
+						deve cercare di adattarlo in modo da non dover cambiare il resto dell'applicazione (e quindi testare nuovamente tutto)</p>
+						<pre><code class="typescript" data-trim data-noescape>
+function convertApiCheckinlog(data: any): CheckinLog {
+  return {
+    date: new Date(Date.parse(data.date)),
+    message: data.message
+  };
+}
+					</code></pre>
+					</section>
+					<section>
+						<h3>Testing del servizio</h3>
+						<p>Il file <i>reception.service.spec.ts</i> contiene i test per il servizio dove è possibile mockare
+						il client Http di Angular in modo da simulare diversi tipi di riposta (compese anche diverse tipologie di errore)</p>
+					</section>
+				</section>
+
+
+
+
+
 
 				<section>
 					<section>

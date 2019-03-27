@@ -2,9 +2,7 @@ import {Component} from 'react';
 import React from 'react';
 import './checksin-list.css';
 import {Checkin} from '../models/checkin.model';
-import Axios from 'axios';
-
-const APIURL = "http://localhost:3000";
+import {apiCheckout} from '../libs/receptionApi.lib';
 
 export interface ChecksinListProps {
     checksin: Array<Checkin>;
@@ -48,7 +46,7 @@ export class ChecksinList extends Component<ChecksinListProps> {
 
 
     private checkoutPerson(checkinId: number) {
-        Axios.delete(`${APIURL}/checkin/${checkinId}`).then(
+        apiCheckout(checkinId).then(
             () => {
                 if (this.props.onCheckout) {
                     this.props.onCheckout();
