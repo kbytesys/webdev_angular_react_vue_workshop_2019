@@ -4,10 +4,16 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-		<title>reveal.js</title>
+		<title>Pattern di sviluppo "moderno" con Angular, React e Vue</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/black.css">
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+			  integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
 
 		<!-- Theme used for syntax highlighting of code -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -24,8 +30,221 @@
 	<body>
 		<div class="reveal">
 			<div class="slides">
-				<section>Slide 1</section>
-				<section>Slide 2</section>
+				<section>
+					<h2>Pattern di sviluppo "moderno" con Angular, React e Vue</h2>
+					<p>
+						<small>Andrea Briganti <a href="http://kbyte.snowpenguin.org" target="_blank"><i class="fa fa-globe"></i></a>
+							<a href="https://github.com/kbytesys" target="_blank"><i class="fab fa-github"></i></a></small><br>
+							Presentazione e demo: <a href="https://bit.ly/2HPX7Q1" target="_blank">https://bit.ly/2HPX7Q1</a>
+					</p>
+
+
+				</section>
+				<section>
+					<section>
+						<h3>Lo sviluppo "canonico"</h3>
+						<p>Una buona dose di HTML...</p>
+						<pre><code data-trim contenteditable>
+    &lt;div class=&quot;content bg-tab&quot; style=&quot;padding-left:5px;padding-top:10px;&quot;&gt;
+        &lt;div class=&quot;row collapse border-bottom-1&quot;&gt;
+            &lt;div class=&quot;large-6 medium-6 small-6 columns&quot;&gt;
+                &lt;h6 class=&quot;f-yellow&quot;&gt;Nome Squadra&lt;/h6&gt;
+                </code></pre>
+					</section>
+					<section>
+						<h3>Lo sviluppo "canonico"</h3>
+						<p>... contornato da Javascript qui e li.</p>
+						<pre><code data-trim contenteditable>
+    function update_livepanel() {
+        var placeHolder = $("#live-container");
+
+        $.get("/api/v1.0/livematches",function(data,status,xhr){
+            if(oldlastupdate == null || data.lastupdate != oldlastupdate) {
+                oldlastupdate = data.lastupdate;
+                var html = template(data);
+                placeHolder.empty();
+                placeHolder.append(html);
+                placeHolder.foundation('reflow');
+        [...]
+    }
+                </code></pre>
+					</section>
+					<section>
+						<h3>Come diventa il codice:</h3>
+						<img  src="img/Indian-Phone-Systems.jpg" style="width: 80%">
+					</section>
+					<section>
+						<h3>La reazione di chi deve modificare il codice</h3>
+						<img src="img/nope.gif" style="width: 50%">
+						<p>...specie se il codice è altrui <i class="fa fa-smile-o"></i></p>
+					</section>
+					<section>
+						<h3>Maggiori limiti attuali</h3>
+						<ul>
+							<li>Difficoltà nell'organizzare id e classi per gli script</li>
+							<li>Javascript è un linguaggio poco "ordinato"</li>
+							<li>Confusione al crescere della dimensione</li>
+							<li>Possibilità praticamente nulla di fare refactor</li>
+							<li>Il codice della pagina non è semantico</li>
+						</ul>
+					</section>
+				</section>
+
+
+				<section>
+					<section>
+						<h3><img src="img/HTML5_Logo_256.png" class="title-image"> HTML5 e semantica</h3>
+						<img src="img/war-layout-25e6af23.png" style="width: 45%">
+					</section>
+					<section>
+						<h3><img src="img/webcomponent_logo.svg" class="title-image"> Web Components</h3>
+						<p>Strutture complesse...</p>
+						<pre><code data-trim contenteditable>
+&lt;div class=&quot;menu-container&quot;&gt;
+    &lt;ul class=&quot;main-menu&quot;&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Voce Menu 1&lt;/a&gt;&lt;/li&gt;
+        &lt;li&gt;&lt;a href=&quot;#&quot;&gt;Voce Menu 2&lt;/a&gt;&lt;/li&gt;
+    &lt;/ul&gt;
+&lt;/div&gt;
+                </code></pre>
+						<p>...acquistano semantica</p>
+						<pre><code data-trim contenteditable>
+&lt;menu&gt;
+    &lt;menu-voce url=&quot;#&quot;&gt;Voce Menu 1&lt;/menu-voce&gt;
+    &lt;menu-voce url=&quot;#&quot;&gt;Voce Menu 2&lt;/menu-voce&gt;
+&lt;/menu&gt;
+                </code></pre>
+						<p>Per maggiori info: <a href="http://webcomponents.org" target="_blank">http://webcomponents.org</a></p>
+					</section>
+
+					<section>
+						<h3>Web Components e frameworks</h3>
+						<p>Benché non tutti i browser supportino i webcomponents, i principali framework per lo sviluppo sul web ne utilizzano
+						i concetti cercando di separare la presentazione del componente dalla sua logica.</p>
+					</section>
+				</section>
+				<section>
+					<section>
+					<h3>Cosa impareremo in questo workshop?</h3>
+					<ul>
+						<li>Creare un'applicazione in Angular, React e Vue</li>
+						<li>Comprendere i pattern comuni principali</li>
+						<li>Dare le basi per il testing</li>
+					</ul>
+					</section>
+					<section>
+						<h3>Di cosa ho bisogno per mettere in pratica ciò che imparerò qui?</h3>
+						<ul>
+							<li>Una versione recente di Nodejs</li>
+							<li>Un IDE/Editor con il quale vi sentite a vostro agio (VSCode? Webstorm?)</li>
+							<li>(Opzionale) Un terminale a linea di comando</li>
+							<li>(Ovviamente) Una connessione Internet</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Linguaggio consigliato <img src="img/typescript_logo.png" class="title-image"></h3>
+						<p>Per lo sviluppo utilizzeremo Typescript</p>
+						<ul>
+							<li>Codice più ordinato e programmazione orientata agli oggetti</li>
+							<li>Rilevazione di errori a "tempo di compilazione"</li>
+							<li>Supporto al completamento automatico negli IDE</li>
+						</ul>
+						<p>La sintassi di Typescript va "nella direzione" di Ecmascript 6 e il compilatore genera all'occorrenza
+							codice ES 5 e 6.</p>
+						<p></p>
+					</section>
+					<section>
+						<h3>Alternative a Typescript</h3>
+						<p>Attualmente è la best choice per Angular, opzionale ma gradito per gli altri framework.</p>
+						<p>Tuttavia sviluppare in Typescript garantisce la rilevazione degli errori a tempo di compilazione, ecc...</p>
+						<p>In alternativa possiamo utilizzare:</p>
+						<ul>
+							<li><img src="img/js.png" class="title-image"> Ecmascript 5</li>
+							<li><img src="img/js.png" class="title-image"> Ecmascript 6 + babel</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<section>
+						<h3>Architettura base di una webapp</h3>
+						<img src="img/webapp_architecture.svg" style="width: 120%" />
+					</section>
+					<section>
+						<h3>Creepy Artist Theater Congress Center</h3>
+						<p>Vogliamo realizzare una piccola webapp per la reception di un centro congressi.</p>
+						<img src="img/cat_models.svg" style="width: 60%" />
+					</section>
+					<section>
+						<p>Allo scopo è già stata creata una mini api rest in nodejs che potete trovare nella directory <i>restapi</i> dei demo</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ npm install
+$ npm run start
+workshop checkin RESTful API server started on: 3000
+
+	</code></pre>
+						<p>Le api risponderanno al seguente indirizzo http://localhost:3000</p>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h3><img src="img/angular-logo.png" class="title-image"> Creazione di una webapp Angular</h3>
+						<p>Per creare una nuova applicazione Angular si utilizza Angular-cli che genererà tutto il necessario per il progetto.</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ npm install -g @angular/cli
+
+$ ng new cat-congress-center-app
+? Would you like to add Angular routing? Yes
+? Which stylesheet format would you like to use?
+> SCSS   [ http://sass-lang.com/documentation/file.SASS_REFERENCE.html#syntax ]
+	</code></pre>
+						<p>SCSS è consigliato rispetto al CSS classico</p>
+					</section>
+					<section>
+						<h2>Pattern: suddividere l'applicazione in moduli</h2>
+						<p>Lo sviluppo dell'applicazione non deve avvenire aggiungendo componenti e files nel modulo <i>"App"</i>,
+							dobbiamo piuttosto suddividere il progetto in moduli</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ ng generate module Reception --routing
+	</code></pre>
+						<p>Le good practice guidelines su come organizzare moduli e files è disponibile al seguente
+							<a target="_blank" href="https://angular.io/guide/styleguide#overall-structural-guidelines">link</a></p>
+					</section>
+					<section>
+						<h3>Composizione di un modulo</h3>
+						<p>Ogni modulo in genere è composto da:</p>
+						<ul>
+							<li>Definizione del modulo (reception.module.ts)</li>
+							<li>Definizione del routing (reception-routing.module.ts)</li>
+							<li>Definizione dei modelli</li>
+							<li>Librerie di funzioni, servizi, guards e filters</li>
+							<li>Componenti</li>
+						</ul>
+					</section>
+				</section>
+
+				<section>
+					<section>
+						<h2>One-Way Data Binding <img src="img/obsolete.png" class="title-image"></h2>
+						<img src="img/One_Way_Data_Binding.png" style="width: 80%;">
+					</section>
+					<section>
+						<h2><img src="img/angular-logo.png" class="title-image"> Two-Way Data Binding</h2>
+						<img src="img/Two_Way_Data_Binding.png" style="width: 80%;">
+					</section>
+
+				</section>
+
+
+
+
+
+
+
+
+
+
+
 			</div>
 		</div>
 
@@ -37,6 +256,8 @@
 			// - https://github.com/hakimel/reveal.js#configuration
 			// - https://github.com/hakimel/reveal.js#dependencies
 			Reveal.initialize({
+				history: true,
+				slideNumber: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },

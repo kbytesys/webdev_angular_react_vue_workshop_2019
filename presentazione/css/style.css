@@ -1,0 +1,17 @@
+.title-image {
+    height: 1em !important;
+    vertical-align: text-top !important;
+    border: none !important;
+    background: none !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+}
+
+.image-title {
+    margin-bottom: 5px !important;
+}
+
+.image-low-margin {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
