@@ -35,11 +35,8 @@
 					<p>
 						<small>Andrea Briganti <a href="http://kbyte.snowpenguin.org" target="_blank"><i class="fa fa-globe"></i></a>
 							<a href="https://github.com/kbytesys" target="_blank"><i class="fab fa-github"></i></a></small><br>
-							Presentazione e demo: <a href="https://bit.ly/2HPX7Q1" target="_blank">https://bit.ly/2HPX7Q1</a><br>
-						Canale slack: <a href="https://nttdata-cs.slack.com/messages/CH0AT5W0H" target="_blank">#frontend</a>
+							Presentazione e demo: <a href="https://bit.ly/2HPX7Q1" target="_blank">https://bit.ly/2HPX7Q1</a>
 					</p>
-
-
 				</section>
 				<section>
 					<section>
@@ -489,17 +486,138 @@ export class GuestListComponent implements OnInit {
 					</ul>
 				</section>
 
+				<section>
+					<section>
+					<h3><img src="img/React-icon.svg" class="title-image"> Creazione di una webapp react</h3>
+					<p>Esistono diverse modalità, per questo workshop utilizzeremo il tool <i>create-react-app</i> di Facebook</i></p>
+					<pre><code class="bash" data-trim data-noescape>
+$ npx create-react-app cat-app --typescript
+	</code></pre>
+					<p>Non verranno chieste ulteriori domande e verrà creato lo scheletro di un'applicazione base</p>
+					</section>
+					<section>
+						<h3>Librerie di terze parti <i>"Must have"</i></h3>
+						<p>Alcune feature essenziali non sono fornite nativamente in React, ma esistono diverse librerie "standard de facto":</p>
+						<ul>
+							<li><b>Redux:</b> state container per l'applicazione (non più solo per il componente)</li>
+							<li><b>React router dom:</b> funzionalità di routing</li>
+							<li><b>Axios:</b> client per rest api</li>
+							<li><b>Ezyme:</b> libreria per il testing dei componenti</li>
+						</ul>
+					</section>
+				</section>
+				<section>
+					<h3>Creazione dei modelli</h3>
+					<p>I modelli dell'applicazioni sono esattamente quelli realizzati dall'esempio in Angular</p>
+				</section>
+				<section>
+					<h3>Pattern: Creazione dei servizi</h3>
+					<p>In assenza di dependency injection, invece di creare delle classi possiamo creare dei moduli (file typescript/javascript)
+					dedicati, contenente le funzioni del servizio:</p>
+					<pre><code class="typescript" data-trim data-noescape>
+export function apiGetChecksinLog(): Promise&lt;CheckinLog[]&gt; {
+    return Axios.get(`${APIURL}/checkinlog`)
+        .then((response) =&gt; response.data.map(convertCheckinLog));
+}
+					</code></pre>
+					<p>Vengono usate le Promise perché Axios non utilizza gli Observable</p>
+				</section>
 
+				<section>
+					<section>
+						<h3>Creazione dei componenti</h3>
+						<p>La creazione dei componenti avviene creando semplicemente un file con estensione <i>.tsx</i></p>
+						<p>Benché in react non c'è il concetto di modulo, si consiglia di suddividere i componenti,
+						servizi e modelli in sottocartelle.</p>
+					</section>
+					<section>
+						<h3>Anatomia di un componente: classe</h3>
+						<pre><code class="typescript" data-trim data-noescape>
+class App extends Component&lt;AppComponentProps, AppComponentState&gt; {
+  constructor(props: AppComponentProps) { super(props); }
 
+  refreshData() {
+    apiGetChecksin()
+        .then(data =&gt; { newState.checksin = data; this.setState(newState); });
+  }
 
+  componentDidMount() {
+    this.refreshData();
+  }
 
+  render() {
+					</code></pre>
+						<p><i>componentDidMount()</i> e <i>render()</i> sono due funzioni del ciclo vita di react
+						(<a href="https://reactjs.org/docs/state-and-lifecycle.html" target="_blank">link</a>)</p>
+					</section>
 
+					<section>
+						<h3>Anatomia di un componente: props</h3>
+						<p>I props descrivono gli attributi in entrata e uscita al componente</p>
+						<pre><code class="typescript" data-trim data-noescape>
+export interface ChecksinListProps {
+    checksin: Array&lt;Checkin&gt;;
+    onCheckout?: () =&gt; void;
+}
 
+export class ChecksinList extends Component&lt;ChecksinListProps&gt; {
+					</code></pre>
+						<p>Sono l'equivalente degli <i>@Input()</i> e <i>@Output()</i> di Angular</p>
+					</section>
 
+					<section>
+						<h3>Anatomia di un componente: state</h3>
+						<p>Lo state contiene i dati del componente</p>
+						<pre><code class="typescript" data-trim data-noescape>
+interface AppComponentState {
+  checksin: Array&lt;Checkin&gt;;
+  checksinLog: Array&lt;CheckinLog&gt;;
+}
 
+class App extends Component&lt;AppComponentProps, AppComponentState&gt; {
+					</code></pre>
+						<p>Ogni volta che aggiorniamo lo stato con la funztione <i>this.setState(newState)</i>, React procederà
+							a renderizzare nuovamente il componente</p>
+					</section>
 
+					<section>
+						<h3>Anatomia di un componente: render</h3>
+						<pre><code class="html" data-trim data-noescape>
+render() {
+    return (
+      &lt;div className=&quot;App&quot;&gt;
+        &lt;h1&gt;Creepy Artist Theatre Congress Center&lt;/h1&gt;
+        &lt;ChecksinList checksin={this.state.checksin} onCheckout={this.refreshData}/&gt;
+        &lt;ChecksinLog checksinLog={this.state.checksinLog} /&gt;
+      &lt;/div&gt;
+    );
+  }
+					</code></pre>
+						<p>L'oggetto di ritorno è un di tipo <i>JSX.Element</i> e contiene markup html che può essere reso
+						dinamico utilizzando logica in typescript/javascript. Per maggiori info
+							<a href="https://reactjs.org/docs/introducing-jsx.html" target="_blank">doc JSX</a></p>
+					</section>
 
-
+					<section>
+						<h3>Testing dei componenti</h3>
+						<p>Nel file <i>App.test.tsx</i> è presente un esempio di come creare alcune unit test per i componenti.</p>
+					</section>
+				</section>
+				<section>
+					<h3>Diverso framework, stessi concetti</h3>
+					<p>A parte le differenze mostrate, tutti i pattern spiegati in precedenza devono essere garantiti
+					(tipi come contratti, organizzazione dei componenti, comunicazione padre-figlio, ecc...)</p>
+					<p>La strategia di JSX di mischiare presentazione e logica del componente può portare in tentazione,
+					ma sta allo sviluppatore resistere :)</p>
+				</section>
+				<section>
+					<h2>Esecuzione task per lo sviluppo/build</h2>
+					<ul>
+						<li><b>npm run start:</b> esegue il server web locale per sviluppo</li>
+						<li><b>npm run build:</b> compila il progetto per un eventuale deploy</li>
+						<li><b>npm run test:</b> esegue gli unit test</li>
+					</ul>
+				</section>
 			</div>
 		</div>
 
