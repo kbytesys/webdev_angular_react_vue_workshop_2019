@@ -203,7 +203,7 @@ $ ng new cat-congress-center-app
 						<pre><code class="bash" data-trim data-noescape>
 $ ng generate module Reception --routing
 	</code></pre>
-						<p>Le good practice guidelines su come organizzare moduli e files è disponibile al seguente
+						<p>Le guidelines su come organizzare moduli e files sono disponibili al seguente
 							<a target="_blank" href="https://angular.io/guide/styleguide#overall-structural-guidelines">link</a></p>
 					</section>
 					<section>
@@ -427,7 +427,7 @@ export class GuestListComponent implements OnInit {
 						<p>Solo le <i>view</i> dovrebbero interrogare i servizi</p>
 					</section>
 					<section>
-						<h3>Comunicazione padre <i class="fas fa-arrows-alt-h"></i> figlio</h3>
+						<h3>Pattern: Comunicazione <br>padre <i class="fas fa-arrows-alt-h"></i> figlio</h3>
 						<pre><code class="typescript" data-trim data-noescape>
 export class GuestListComponent implements OnInit {
 
@@ -656,27 +656,91 @@ $ vue create cat-project
 				</section>
 				<section>
 					<section>
+						<h3>Creazione di un componente</h3>
+						<p>Un componente (anche se di tipo view) può essere creato aggiungendo un file <i>.vue</i>
+						al progetto che contiene:<br>
+						<ul>
+							<li>Template</li>
+							<li>Classe del componente</li>
+							<li>Stile</li>
+						</ul>
+
+						<p>Esistono anche metodi alternativi, specialmente quando si usa Vue come webcomponents integrabili.</p>
+					</section>
+					<section>
+						<h3>Anatomia di un componente: Stile</h3>
+						<p>Lo stile può essere espresso in scss:</p>
+						<pre><code class="html" data-trim data-noescape>
+&lt;style lang=&quot;scss&quot;&gt;
+    .reception-log {
+        text-align: center;
+        width: 100%;
+
+        table {
+            min-width: 600px;
+            margin: auto;
+        }
+    }
+&lt;/style&gt;
+					</code></pre>
+						<p>Ovviamente il browser non saprà interpretarlo nativamente, ma esso verrà convertito in css
+						durante la fase di build.</p>
+					</section>
+					<section>
+						<h3>Anatomia di un componente: Template</h3>
+						<p>Anche Vue utilizza una netta separazione tra presentazione e logica del componente:</p>
+						<pre><code class="html" data-trim data-noescape>
+&lt;template&gt;
+  &lt;div class=&quot;room&quot;&gt;
+    &lt;h2&gt;Detail of the Room {{roomId}}&lt;/h2&gt;
+    &lt;GuestList :checksin=&quot;checksin&quot;
+		v-on:onCheckout=&quot;onCheckout()&quot;/&gt;
+    &lt;ChecksinLog :checksinLog=&quot;checksinLog&quot;/&gt;
+  &lt;/div&gt;
+&lt;/template&gt;
+					</code></pre>
+						<p>La sintassi è molto simile al sistema di template di Angular.</p>
+					</section>
+					<section>
+						<h3>Anatomia di un componente: Classe</h3>
+						<p>Anche classe del componente ha tante analogie con Angular</p>
+						<pre><code class="typescript" data-trim data-noescape>
+&lt;script lang=&quot;ts&quot;&gt;
+    @Component
+    export default class GuestList extends Vue {
+
+        @Prop()
+        public checksin!: CheckinModel[];
+
+        @Emit(&#39;onCheckout&#39;)
+        public onCheckout() {
+            return;
+        }
+					</code></pre>
+						<p><i>@Prop()</i> ed <i>Emit()</i> sono equivalenti a <i>@Input()</i> e <i>@Output</i> di Angular</p>
+					</section>
+
+					<section>
 						<h3>Testing dei componenti</h3>
 						<p>Nei files <i>homeview.spec.ts</i> e <i>checksinlog.spec.ts</i> sono presenti alcune test unit
 							per view e componenti.</p>
 					</section>
-					<section>
-						<h2>Esecuzione task per lo sviluppo/build</h2>
-						<ul>
-							<li><b>npm run start:</b> esegue il server web locale per sviluppo</li>
-							<li><b>npm run build:</b> compila il progetto per un eventuale deploy</li>
-							<li><b>npm run test:unit:</b> esegue gli unit e e2e test</li>
-							<li><b>npm run lint:</b> verifica la corretta formattazione del codice</li>
-						</ul>
-					</section>
-					<section>
-						<h3>Diverso framework, stessi concetti</h3>
-						<p>A parte le differenze mostrate, tutti i pattern spiegati in precedenza devono essere garantiti
-							(tipi come contratti, organizzazione dei componenti, comunicazione padre-figlio, ecc...)</p>
-						<p>In realtà Vue ha molte analogie con Angular, lo pone quindi come ottima alternativa quando non si
-						vuole raggiungere elevati livelli di complessità.</p>
-					</section>
-
+				</section>
+				<section>
+					<h2>Esecuzione task per lo sviluppo/build</h2>
+					<ul>
+						<li><b>npm run start:</b> esegue il server web locale per sviluppo</li>
+						<li><b>npm run build:</b> compila il progetto per un eventuale deploy</li>
+						<li><b>npm run test:unit:</b> esegue gli unit e e2e test</li>
+						<li><b>npm run lint:</b> verifica la corretta formattazione del codice</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Diverso framework, stessi concetti</h3>
+					<p>A parte le differenze mostrate, tutti i pattern spiegati in precedenza devono essere garantiti
+						(tipi come contratti, organizzazione dei componenti, comunicazione padre-figlio, ecc...)</p>
+					<p>In realtà Vue ha molte analogie con Angular, lo pone quindi come ottima alternativa quando non si
+					vuole raggiungere elevati livelli di complessità.</p>
 				</section>
 				<section>
 					<section>
