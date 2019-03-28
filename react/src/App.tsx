@@ -11,6 +11,8 @@ interface AppComponentState {
   checksinLog: Array<CheckinLog>;
 }
 
+interface AppComponentProps {}
+
 function createEmptyState(): AppComponentState {
   return {
     checksin: [],
@@ -18,8 +20,8 @@ function createEmptyState(): AppComponentState {
   };
 }
 
-class App extends Component<any, AppComponentState> {
-  constructor(props: any) {
+class App extends Component<AppComponentProps, AppComponentState> {
+  constructor(props: AppComponentProps) {
     super(props);
     this.state = createEmptyState();
     this.refreshData = this.refreshData.bind(this);

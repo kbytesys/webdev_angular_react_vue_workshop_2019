@@ -35,7 +35,8 @@
 					<p>
 						<small>Andrea Briganti <a href="http://kbyte.snowpenguin.org" target="_blank"><i class="fa fa-globe"></i></a>
 							<a href="https://github.com/kbytesys" target="_blank"><i class="fab fa-github"></i></a></small><br>
-							Presentazione e demo: <a href="https://bit.ly/2HPX7Q1" target="_blank">https://bit.ly/2HPX7Q1</a>
+							Presentazione e demo: <a href="https://bit.ly/2HPX7Q1" target="_blank">https://bit.ly/2HPX7Q1</a><br>
+						Canale slack: <a href="https://nttdata-cs.slack.com/messages/CH0AT5W0H" target="_blank">#frontend</a>
 					</p>
 
 
@@ -266,8 +267,7 @@ export interface Checkin {
 					<section>
 						<h3>Pattern: Utilizzare interfacce al posto di classi</h3>
 						<p>Nella definizione dei modelli abbiamo utilizzato delle interfacce al posto delle classi perché le classi in
-						Javascript hanno maggior overhead e il linguaggio permette maggiore flessibilità di creazione e utilizzo di oggetti
-							(anche on the fly).</p>
+						Javascript hanno maggior overhead e il linguaggio permette la maggiore flessibilità di creazione (anche on the fly).</p>
 						<pre><code class="typescript" data-trim data-noescape>
 let checkin: Checkin = {id: 1, room: {id: 1, name: 'room1'},
 			person: {name: 'person1'}};
@@ -284,8 +284,23 @@ let checkin: Checkin = {id: 1, room: {id: 1, name: 'room1'},
 $ cd reception/shared
 $ ng generate service Reception
 	</code></pre>
-						<p>Il comando creerà un servizio vuoto e una test unit base che può essere comunque essere utile
+						<p>Il comando creerà un servizio vuoto e una test unit base che può essere utile
 						per verificare la corretta attivazione del servizio.</p>
+					</section>
+					<section>
+						<h3>Esempio di funzione in un servizio</h3>
+						<pre><code class="typescript" data-trim data-noescape>
+  public getRooms(): Observable&lt;Array&lt;Room&gt;&gt; {
+    return this.http
+	    .get&lt;Array&lt;Room&gt;&gt;(`${environment.apiUrl}/room`).pipe(
+            map((responseData) => convertApiRooms(responseData)));
+  }
+	</code></pre>
+					</section>
+					<section>
+						<h3>Observable vs Promise</h3>
+						<img src="img/observable_promise.png">
+						<p><b>Nota bene:</b> con gli observable la chiamata non parte fino a quando non si chiama <i>".subscribe()"</i></p>
 					</section>
 					<section>
 						<h3>Dependency injection</h3>
@@ -293,9 +308,8 @@ $ ng generate service Reception
 						<pre><code class="typescript" data-trim data-noescape>
 constructor(private http: HttpClient) {}
 	</code></pre>
-						<p>Tutto ciò che è nel costruttore (in questo caso il client per le chiamate rest)
-						verrà iniettato da Angular alla creazione della classe. Ciò vale anche per i servizi e altre entità
-						che creeremo noi nell'applicazione.</p>
+						<p>Tutto ciò che è nel costruttore verrà iniettato da Angular alla creazione della classe.</p>
+						<img width="70%" src="img/injector-injects.png">
 					</section>
 
 					<section>
@@ -313,11 +327,6 @@ public getRoom(roomId: number): Observable &lt;Room&gt; {
 	</code></pre>
 						<p>Essi definiscono dei contratti che vi tengono al sicuro da errori e rendono possibile il refactor dell'applicazione</p>
 						<p><i>"any"</i> non è un contratto accettabile e va bandito</p>
-					</section>
-					<section>
-						<h3>Observable vs Promise</h3>
-						<img src="img/observable_promise.png">
-						<p><b>Nota bene:</b> con gli observable la chiamata non parte fino a quando non si chiama <i>".subscribe()"</i></p>
 					</section>
 					<section>
 						<h3>Pattern: Adattare il dato nel servizio</h3>
@@ -340,21 +349,146 @@ function convertApiCheckinlog(data: any): CheckinLog {
 				</section>
 
 
-
-
-
-
 				<section>
 					<section>
-						<h2>One-Way Data Binding <img src="img/obsolete.png" class="title-image"></h2>
-						<img src="img/One_Way_Data_Binding.png" style="width: 80%;">
+						<h3>Creazione di un componente</h3>
+						<p>Per la creazione del componente utilizziamo sempre Angular Cli</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ cd reception/
+$ ng generate component Dashboard --style scss
+	</code></pre>
+						<p>Il comando creerà un componente vuoto e una test unit base che può essere utile
+							per verificare la corretta attivazione del componente.</p>
+					</section>
+
+					<section>
+						<h3>Anatomia di un componente: stile</h3>
+						<pre><code class="scss" data-trim data-noescape>
+#guest-list.component.scss
+table {
+  border-collapse: collapse;
+}
+
+th, td {
+  border-bottom: 1px solid #ddd;
+  min-width: 100px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+	</code></pre>
+						<p>Qui vediamo i tag html "base" <i>table</i>, <i>th</i> e <i>td</i> perchè
+							Angular utilizza lo shadow dom anche per lo stile!</p>
+					</section>
+
+					<section>
+						<h3>Anatomia di un componente: classe</h3>
+						<pre><code class="typescript" data-trim data-noescape>
+@Component({
+  selector: &#39;app-guest-list&#39;,
+  templateUrl: &#39;./guest-list.component.html&#39;,
+  styleUrls: [&#39;./guest-list.component.scss&#39;]
+})
+export class GuestListComponent implements OnInit {
+
+  constructor(private receptionService: ReceptionService) { }
+
+  public checksin: Array&lt;Checkin&gt;;
+  public checkout: EventEmitter&lt;void&gt; = new EventEmitter&lt;void&gt;();
+
+  ngOnInit() {}
+						</code></pre>
+						<p><i>ngOnInit()</i> è una funzione speciale eseguita all'attivazione del componente. Per gli
+							altri eventi del ciclo di vita dei componenti vai a questo <a target="_blank" href="https://angular.io/guide/lifecycle-hooks">link</a></p>
+					</section>
+
+					<section>
+						<h3>Anatomia di un componente: template</h3>
+						<pre><code class="html" data-trim data-noescape>
+&lt;thead class=&quot;reception-guest-list-header&quot;&gt;
+&lt;tr&gt;&lt;th&gt;Room&lt;/th&gt;
+  &lt;th&gt;Person&lt;/th&gt;
+  &lt;th&gt;&lt;/th&gt; &lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr *ngFor=&quot;let checkin of checksin&quot;&gt;
+  &lt;td&gt;{{checkin.room.name}}&lt;/td&gt;
+  &lt;td&gt;{{checkin.person.name}}&lt;/td&gt;
+  &lt;td&gt;&lt;a href=&quot;javascript:void(0)&quot;
+	(click)=&quot;checkoutPerson(checkin.id)&quot;&gt;checkout&lt;/a&gt;&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+						</code></pre>
+						<p>Nel template possiamo accedere a tutte le proprietà e metodi della classe componente</p>
 					</section>
 					<section>
 						<h2><img src="img/angular-logo.png" class="title-image"> Two-Way Data Binding</h2>
 						<img src="img/Two_Way_Data_Binding.png" style="width: 80%;">
 					</section>
+					<section>
+						<h3>PATTERN: Organizzazione dei componenti</h3>
+						<img src="img/angular-component-organization_1.svg">
+						<p>Solo le <i>view</i> dovrebbero interrogare i servizi</p>
+					</section>
+					<section>
+						<h3>Comunicazione padre <i class="fas fa-arrows-alt-h"></i> figlio</h3>
+						<pre><code class="typescript" data-trim data-noescape>
+export class GuestListComponent implements OnInit {
 
+  @Input()
+  public checksin: Array&lt;Checkin&gt;;
+
+  @Output()
+  public checkout: EventEmitter&lt;void&gt; = new EventEmitter&lt;void&gt;();
+						</code></pre>
+						<pre><code class="html" data-trim data-noescape>
+&lt;div class=&quot;reception-dashboard&quot;&gt;
+  &lt;app-guest-list [checksin]=&quot;checksin&quot;
+        (checkout)=&quot;onCheckoutOrCheckin()&quot;&gt;&lt;/app-guest-list&gt;
+&lt;/div&gt;
+						</code></pre>
+						<p>Con <i>@Input()</i> indichiamo gli attributi in ingresso, con <i>@Output()</i> gli eventi che possono
+						essere lanciati.</p>
+					</section>
+					<section>
+						<h3>Guards come strumento per ottenere i dati</h3>
+						<img src="img/angular-component-organization_2.svg">
+						<p>Il render avviene <b>dopo</b> aver ottenuto i dati</p>
+					</section>
+
+					<section>
+						<h3>Tipologie di guards</h3>
+						<p>Le guards agiscono sui cambi di rotta e possono essere di diversi tipi:</p>
+						<ul>
+							<li><b>Resolve:</b> prefetch dei dati</li>
+							<li><b>CanActivate - CanActivateChild - CanLoad:</b> posso attivare la rotta? (Esempio sono autenticato?)</li>
+							<li><b>CanDeactivate:</b> posso abbandonare la rotta? (Esempio dati non salvati)</li>
+						</ul>
+					</section>
+					<section>
+						<h3>Testing dei componenti</h3>
+						<p>Nel file <i>guest-list.component.spec.ts</i> è presente un esempio di come creare alcune unit test per i componenti. Ricordatevi
+						di mockare i servizi che utilizzate con <i>Spy</i> e non è utile fare il mock delle richieste alle api rest.</p>
+					</section>
 				</section>
+				<section>
+					<h2>Esecuzione task per lo sviluppo/build</h2>
+					<ul>
+						<li><b>ng serve:</b> esegue il server web locale per sviluppo</li>
+						<li><b>ng build:</b> compila il progetto per un eventuale deploy</li>
+						<li><b>ng test (--code-coverage) e ng e2e:</b> esegue gli unit e e2e test</li>
+						<li><b>ng lint:</b> verifica la corretta formattazione del codice</li>
+					</ul>
+				</section>
+				<section>
+					<h3>Toolkit e librerie per Angular</h3>
+					<p>Per Angular sono disponibili diversi toolkit e librerie di terze parti. Esempi:</p>
+					<ul>
+						<li>PrimeNg</li>
+						<li>Angular Material</li>
+						<li>Auth0 Angular Jwt</li>
+					</ul>
+				</section>
+
 
 
 
@@ -379,11 +513,15 @@ function convertApiCheckinlog(data: any): CheckinLog {
 			Reveal.initialize({
 				history: true,
 				slideNumber: true,
+				center: true,
 				dependencies: [
 					{ src: 'plugin/markdown/marked.js' },
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
-					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } }
+					{ src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/search/search.js', async: true },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
 				]
 			});
 		</script>
