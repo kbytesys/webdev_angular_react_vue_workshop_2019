@@ -38,7 +38,7 @@ export class CheckinFormComponent implements OnInit {
 
         },
         (response) => {
-          this.lastCheckinError = response.error && response.error.message ? response.error.message : response
-        })
+          this.lastCheckinError = response.error && response.error.message ? response.error.message : response;
+        });
   }
 }

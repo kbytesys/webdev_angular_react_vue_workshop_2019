@@ -12,10 +12,10 @@ describe('GuestListComponent', () => {
   let receptionServiceSpy: jasmine.SpyObj<ReceptionService>;
 
   const demoData: Array<Checkin> = [
-    {id: 1, person: {name: "name1"}, room: {id: 1, name: "room1"}},
-    {id: 2, person: {name: "name2"}, room: {id: 1, name: "room1"}},
-    {id: 3, person: {name: "name3"}, room: {id: 2, name: "room2"}},
-    {id: 4, person: {name: "name4"}, room: {id: 2, name: "room2"}}
+    {id: 2, person: {name: 'name2'}, room: {id: 1, name: 'room1'}},
+    {id: 3, person: {name: 'name3'}, room: {id: 2, name: 'room2'}},
+    {id: 1, person: {name: 'name1'}, room: {id: 1, name: 'room1'}},
+    {id: 4, person: {name: 'name4'}, room: {id: 2, name: 'room2'}}
   ];
 
   beforeEach(async(() => {
