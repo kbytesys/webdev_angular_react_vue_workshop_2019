@@ -618,6 +618,56 @@ render() {
 						<li><b>npm run test:</b> esegue gli unit test</li>
 					</ul>
 				</section>
+				<section>
+					<section>
+						<h3><img src="img/Vue.js_Logo_2.svg" class="title-image"> Creazione di una webapp Vue</h3>
+						<p>Per creare una nuova applicazione Vue si utilizza Vue-cli che genererà tutto il necessario per il progetto.</p>
+						<pre><code class="bash" data-trim data-noescape>
+$ npm install -g @vue/cli
+
+$ vue create cat-project
+? Check the features needed for your project:
+ (*) Babel
+ (*) TypeScript
+ (*) Router
+ (*) CSS Pre-processors
+ (*) Linter / Formatter
+ (*) Unit Testing
+	</code></pre>
+						<p>Le funzionalità selezionate permettono la creazione di webapp complesse</p>
+					</section>
+					<section>
+						<h3>Views vs Moduli</h3>
+						<p>Vue suddivide l'applicazione in <i>views</i> (equivalenti ai component Angular che servono
+							una pagina) e i <i>components</i> che sono i mattoni che le compongono.</p>
+						<p>Non è obbligatorio suddividere l'applicazione in sottodirectory per emulare i moduli, ma
+						se l'applicazione aumenta in dimensione la suddivisione è da considerare.</p>
+					</section>
+				</section>
+				<section>
+					<h3>Creazione dei modelli</h3>
+					<p>I modelli dell'applicazioni sono esattamente quelli realizzati dall'esempio in Angular e React</p>
+				</section>
+				<section>
+					<h3>Creazione dei servizi</h3>
+					<p>Anche in questo caso non abbiamo la dependency injection, ma il servizio può essere del tutto
+						identico a quello realizzato per React.</p>
+					<p>Vue non ha un client per le api rest predefinito, quindi utilizziamo nuovamente Axios.</p>
+				</section>
+				<section>
+					<section>
+						<h3>Diverso framework, stessi concetti</h3>
+						<p>A parte le differenze mostrate, tutti i pattern spiegati in precedenza devono essere garantiti
+							(tipi come contratti, organizzazione dei componenti, comunicazione padre-figlio, ecc...)</p>
+						<p>In realtà Vue ha molte analogie con Angular, lo pone quindi come ottima alternativa quando non si
+						vuole raggiungere elevati livelli di complessità.</p>
+					</section>
+					<section>
+						<h3>Testing dei componenti</h3>
+						<p>Nei files <i>homeview.spec.ts</i> e <i>checksinlog.spec.ts</i> sono presenti alcune test unit
+							per view e componenti.</p>
+					</section>
+				</section>
 			</div>
 		</div>
 
